@@ -40,14 +40,14 @@ const MainMenu: React.FC<MainMenuProps> = ({ langPack, onNavigate }) => {
                     {/* Background gradient */}
                     <div style={{
                         position: 'absolute', inset: 0,
-                        background: 'linear-gradient(135deg, #fff5f9 0%, #ffe4f0 55%, #fcd7e8 100%)',
+                        background: 'linear-gradient(135deg, #eefafa 0%, #d7f0f0 55%, #bfe6e7 100%)',
                         borderRadius: 'inherit',
                     }} />
                     {/* Decorative orb */}
                     <div style={{
                         position: 'absolute', top: '-20%', right: '-10%',
                         width: '55%', paddingBottom: '55%',
-                        background: 'radial-gradient(circle, rgba(249,168,212,0.5) 0%, transparent 70%)',
+                        background: 'radial-gradient(circle, rgba(167,222,224,0.5) 0%, transparent 70%)',
                         filter: 'blur(24px)',
                         pointerEvents: 'none',
                     }} />
@@ -66,7 +66,7 @@ const MainMenu: React.FC<MainMenuProps> = ({ langPack, onNavigate }) => {
                             background: 'rgba(255,255,255,0.9)',
                             borderRadius: '1rem',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            boxShadow: '0 2px 12px rgba(190,24,93,0.14)',
+                            boxShadow: '0 2px 12px rgba(7,122,128,0.14)',
                             border: '1px solid rgba(255,255,255,0.8)',
                         }}>
                             <span style={{ color: 'var(--color-primary)' }}>
@@ -95,7 +95,7 @@ const MainMenu: React.FC<MainMenuProps> = ({ langPack, onNavigate }) => {
                             background: 'var(--color-primary)',
                             borderRadius: '50%',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            boxShadow: '0 2px 8px rgba(190,24,93,0.35)',
+                            boxShadow: '0 2px 8px rgba(7,122,128,0.35)',
                             transition: 'transform 250ms var(--ease-spring)',
                         }}
                         className="group-hover:scale-110"
@@ -116,19 +116,19 @@ const MainMenu: React.FC<MainMenuProps> = ({ langPack, onNavigate }) => {
                 >
                     <div style={{
                         position: 'absolute', inset: 0,
-                        background: 'linear-gradient(135deg, #f5f3ff 0%, #ede9fe 55%, #ddd6fe 100%)',
+                        background: 'linear-gradient(135deg, #fdf9ee 0%, #f9efd3 55%, #f1e1b0 100%)',
                         borderRadius: 'inherit',
                     }} />
                     <div style={{
                         position: 'absolute', bottom: '-20%', right: '-10%',
                         width: '60%', paddingBottom: '60%',
-                        background: 'radial-gradient(circle, rgba(196,181,253,0.55) 0%, transparent 70%)',
+                        background: 'radial-gradient(circle, rgba(255,224,160,0.55) 0%, transparent 70%)',
                         filter: 'blur(28px)',
                         pointerEvents: 'none',
                     }} />
                     <div style={{
                         position: 'absolute', left: 0, top: 0, bottom: 0, width: '4px',
-                        background: 'linear-gradient(180deg, var(--color-accent) 0%, #a78bfa 100%)',
+                        background: 'linear-gradient(180deg, var(--color-accent) 0%, #d8b766 100%)',
                         borderTopLeftRadius: 'var(--radius-card)',
                         borderBottomLeftRadius: 'var(--radius-card)',
                     }} />

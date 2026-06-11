@@ -11,23 +11,23 @@
     <style>
       /* ── Design Tokens ─────────────────────────────────────────────── */
       :root {
-        --color-primary:     #BE185D; /* deep rose */
-        --color-primary-lt:  #F9A8D4; /* light rose */
-        --color-accent:      #7C3AED; /* violet */
-        --color-bg:          #FDF4F9; /* warm blush white */
+        --color-primary:     #077A80; /* logo teal */
+        --color-primary-lt:  #A7DEE0; /* light teal */
+        --color-accent:      #B07D2B; /* warm gold accent */
+        --color-bg:          #F4FAFA; /* cool teal white */
         --color-surface:     #FFFFFF;
-        --color-surface-2:   #FFF0F7; /* soft blush surface */
-        --color-border:      #F3D5E8;
-        --color-text:        #1C0A14; /* near-black with warmth */
-        --color-text-muted:  #8B5672;
-        --color-text-subtle: #C4A0B4;
+        --color-surface-2:   #EAF6F6; /* soft teal surface */
+        --color-border:      #CDE6E7;
+        --color-text:        #08272A; /* near-black with cool depth */
+        --color-text-muted:  #4F767B;
+        --color-text-subtle: #9CC2C5;
         --font-display:      'Playfair Display', Georgia, serif;
         --font-body:         'Inter', -apple-system, sans-serif;
         --radius-card:       1.75rem;
         --radius-pill:       9999px;
-        --shadow-card:       0 8px 32px -4px rgba(190,24,93,0.10), 0 2px 8px -2px rgba(0,0,0,0.06);
-        --shadow-card-hover: 0 20px 48px -8px rgba(190,24,93,0.16), 0 4px 12px -2px rgba(0,0,0,0.08);
-        --shadow-nav:        0 8px 32px rgba(190,24,93,0.15), 0 2px 8px rgba(0,0,0,0.08);
+        --shadow-card:       0 8px 32px -4px rgba(7,122,128,0.10), 0 2px 8px -2px rgba(0,0,0,0.06);
+        --shadow-card-hover: 0 20px 48px -8px rgba(7,122,128,0.16), 0 4px 12px -2px rgba(0,0,0,0.08);
+        --shadow-nav:        0 8px 32px rgba(7,122,128,0.15), 0 2px 8px rgba(0,0,0,0.08);
         --dur-fast:          150ms;
         --dur-normal:        280ms;
         --ease-spring:       cubic-bezier(0.16, 1, 0.3, 1);
@@ -68,7 +68,7 @@
         background-color: var(--color-surface);
         border-color: var(--color-primary-lt);
         outline: none;
-        box-shadow: 0 0 0 3px rgba(190,24,93,0.12);
+        box-shadow: 0 0 0 3px rgba(7,122,128,0.12);
       }
 
       /* ── Press feedback ────────────────────────────────────────────── */
@@ -105,7 +105,7 @@
         transition: all var(--dur-fast) ease;
         cursor: pointer;
       }
-      .btn-primary:hover  { background: #9d1453; }
+      .btn-primary:hover  { background: #055E63; }
       .btn-primary:active { transform: scale(0.97); }
 
       /* ── Section label ─────────────────────────────────────────────── */
@@ -190,7 +190,7 @@
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="antialiased selection:bg-pink-200 selection:text-pink-900">
+  <body class="antialiased selection:bg-teal-200 selection:text-teal-900">
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>

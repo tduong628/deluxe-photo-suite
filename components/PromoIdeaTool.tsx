@@ -457,7 +457,7 @@ Respond with ONLY a valid JSON array of objects. Each object must contain the fi
                                     <button onClick={() => handleAddPromos(selectedIdeas)} className="w-full px-4 py-2.5 text-sm font-medium text-white bg-sky-600 rounded-lg hover:bg-sky-700 transition-colors shadow-sm">
                                         {langPack.ideaToolAddToPromoBtn}
                                     </button>
-                                    <button onClick={() => goToLandingPage(selectedIdeas)} className="w-full px-4 py-2.5 text-sm font-medium text-white bg-pink-600 rounded-lg hover:bg-pink-700 transition-colors shadow-sm">
+                                    <button onClick={() => goToLandingPage(selectedIdeas)} className="w-full px-4 py-2.5 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors shadow-sm">
                                         {langPack.ideaToolCreateLandingPageBtn}
                                     </button>
                                     <button onClick={handleCreateGraphic} className="w-full px-4 py-2.5 text-sm font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-700 transition-colors shadow-sm">

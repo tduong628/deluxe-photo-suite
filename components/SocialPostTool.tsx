@@ -170,9 +170,9 @@ const SocialPostTool: React.FC<SocialPostToolProps> = ({ langPack, showNotificat
                             <p className="text-xs font-bold text-indigo-400 uppercase tracking-wide">Detected Service</p>
                             <p className="text-lg font-bold text-indigo-900 leading-tight mt-1">{analysis.serviceType}</p>
                         </div>
-                        <div className="bg-pink-50 p-4 rounded-2xl border border-pink-100">
-                            <p className="text-xs font-bold text-pink-400 uppercase tracking-wide">Mood</p>
-                            <p className="text-lg font-bold text-pink-900 leading-tight mt-1">{analysis.mood}</p>
+                        <div className="bg-teal-50 p-4 rounded-2xl border border-cyan-100">
+                            <p className="text-xs font-bold text-teal-400 uppercase tracking-wide">Mood</p>
+                            <p className="text-lg font-bold text-teal-900 leading-tight mt-1">{analysis.mood}</p>
                         </div>
                     </div>
 

@@ -69,11 +69,11 @@ const App: React.FC = () => {
         <div className="min-h-screen pb-32 relative" style={{ backgroundColor: 'var(--color-bg)' }}>
             {/* Ambient luxury orbs */}
             <div className="orb w-[55vw] h-[55vw] max-w-[480px] max-h-[480px]"
-                style={{ top: '-8%', left: '-12%', background: 'rgba(249,168,212,0.28)' }} />
+                style={{ top: '-8%', left: '-12%', background: 'rgba(167,222,224,0.28)' }} />
             <div className="orb w-[45vw] h-[45vw] max-w-[400px] max-h-[400px]"
-                style={{ bottom: '-8%', right: '-10%', background: 'rgba(196,181,253,0.22)' }} />
+                style={{ bottom: '-8%', right: '-10%', background: 'rgba(255,224,160,0.22)' }} />
             <div className="orb w-[30vw] h-[30vw] max-w-[260px] max-h-[260px]"
-                style={{ top: '40%', right: '5%', background: 'rgba(253,186,116,0.12)' }} />
+                style={{ top: '40%', right: '5%', background: 'rgba(176,125,43,0.12)' }} />
 
             <Header currentLang={currentLang} onSetLang={setCurrentLang} onGoHome={goHome} />
 

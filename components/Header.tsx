@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ currentLang, onSetLang, onGoHome }) => 
                         src={`${import.meta.env.BASE_URL}logo.png`}
                         alt="Deluxe Nail Spa"
                         className="flex-shrink-0 w-10 h-10 rounded-full object-cover"
-                        style={{ boxShadow: '0 2px 8px rgba(190,24,93,0.18)', background: '#fff' }}
+                        style={{ boxShadow: '0 2px 8px rgba(7,122,128,0.18)', background: '#fff' }}
                     />
                     <div className="flex flex-col items-start leading-none">
                         <span
@@ -78,7 +78,7 @@ const Header: React.FC<HeaderProps> = ({ currentLang, onSetLang, onGoHome }) => 
                                     letterSpacing: '0.05em',
                                     background: isActive ? 'var(--color-primary)' : 'transparent',
                                     color: isActive ? '#fff' : 'var(--color-text-muted)',
-                                    boxShadow: isActive ? '0 1px 4px rgba(190,24,93,0.3)' : 'none',
+                                    boxShadow: isActive ? '0 1px 4px rgba(7,122,128,0.3)' : 'none',
                                     transition: 'all 220ms cubic-bezier(0.16,1,0.3,1)',
                                 }}
                             >
