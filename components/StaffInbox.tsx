@@ -45,9 +45,11 @@ const StaffInbox: React.FC<StaffInboxProps> = ({ showNotification, onBrandImage 
         await markUploadStatus(upload.fileId, 'SKIPPED');
     };
 
-    const filtered = uploads.filter(u =>
+    // This is the DELUXE app — only show Deluxe salon uploads (shared upload backend).
+    const salonUploads = uploads.filter(u => !(u.salon || '').includes('Zen'));
+    const filtered = salonUploads.filter(u =>
         filter === 'ALL' ? true : filter === 'PENDING' ? u.status === 'PENDING' : u.status === 'PROCESSED');
-    const pendingCount = uploads.filter(u => u.status === 'PENDING').length;
+    const pendingCount = salonUploads.filter(u => u.status === 'PENDING').length;
 
     if (!isInboxConfigured()) {
         return (
