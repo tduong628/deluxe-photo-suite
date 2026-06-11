@@ -31,19 +31,12 @@ const Header: React.FC<HeaderProps> = ({ currentLang, onSetLang, onGoHome }) => 
             <div className="max-w-2xl mx-auto px-5 h-[4.25rem] flex justify-between items-center">
                 {/* Brand mark */}
                 <button onClick={onGoHome} className="ios-btn-press flex items-center gap-3 group" aria-label="Go home">
-                    {/* Diamond accent */}
-                    <div
-                        className="flex-shrink-0 w-8 h-8 flex items-center justify-center"
-                        style={{
-                            background: 'linear-gradient(135deg, var(--color-primary) 0%, #9d1453 100%)',
-                            borderRadius: '0.6rem',
-                            boxShadow: '0 2px 8px rgba(190,24,93,0.30)',
-                        }}
-                    >
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M8 1.5L10.5 6.5L15.5 7.5L11.5 11.5L12.5 16.5L8 14L3.5 16.5L4.5 11.5L0.5 7.5L5.5 6.5L8 1.5Z" fill="white" opacity="0.9"/>
-                        </svg>
-                    </div>
+                    <img
+                        src={`${import.meta.env.BASE_URL}logo.png`}
+                        alt="Deluxe Nail Spa"
+                        className="flex-shrink-0 w-10 h-10 rounded-full object-cover"
+                        style={{ boxShadow: '0 2px 8px rgba(190,24,93,0.18)', background: '#fff' }}
+                    />
                     <div className="flex flex-col items-start leading-none">
                         <span
                             className="font-display text-[1.05rem] font-semibold leading-none tracking-tight"
