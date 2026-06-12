@@ -21,6 +21,8 @@ function doPost(e) {
       {
         method: 'post',
         contentType: 'application/json',
+        // The key is website-restricted; identify as the app origin.
+        headers: { Referer: 'https://tduong628.github.io/' },
         payload: JSON.stringify(req.body),
         muteHttpExceptions: true,
       }
