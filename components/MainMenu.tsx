@@ -1,6 +1,8 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { LanguagePack, View } from '../types';
+import { fetchGallery } from '../services/galleryService';
+import { fetchStaffUploads } from '../services/staffInboxService';
 import Icon from './icons';
 
 interface MainMenuProps {
@@ -8,181 +10,155 @@ interface MainMenuProps {
     onNavigate: (view: View) => void;
 }
 
-const MainMenu: React.FC<MainMenuProps> = ({ langPack, onNavigate }) => {
-    return (
-        <div className="pb-10" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+const getGreeting = (): string => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good Morning';
+    if (hour < 17) return 'Good Afternoon';
+    return 'Good Evening';
+};
 
-            {/* Hero title */}
+const todayLabel = (): string =>
+    new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+const MainMenu: React.FC<MainMenuProps> = ({ langPack, onNavigate }) => {
+    const [previewThumb, setPreviewThumb] = useState<string | null>(null);
+    const [galleryCount, setGalleryCount] = useState<number | null>(null);
+    const [inboxCount, setInboxCount] = useState<number | null>(null);
+
+    useEffect(() => {
+        let cancelled = false;
+        fetchGallery().then(items => {
+            if (cancelled) return;
+            setGalleryCount(items.length);
+            setPreviewThumb(items[0]?.thumbnailUrl ?? null);
+        });
+        fetchStaffUploads().then(uploads => {
+            if (cancelled) return;
+            const salonUploads = uploads.filter(u => !(u.salon || '').includes('Zen'));
+            setInboxCount(salonUploads.filter(u => u.status === 'PENDING').length);
+        });
+        return () => { cancelled = true; };
+    }, []);
+
+    return (
+        <div className="pb-10 mx-auto" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '480px' }}>
+
+            {/* Greeting strip */}
             <div className="animate-stagger-1 px-1">
-                <p className="section-label mb-2">Salon Marketing Suite</p>
-                <h1
-                    className="font-display leading-[1.1] tracking-tight"
-                    style={{ fontSize: 'clamp(2.25rem, 7vw, 3rem)', color: 'var(--color-text)' }}
-                >
-                    Create content<br />
-                    <em style={{ color: 'var(--color-primary)', fontStyle: 'italic' }}>like a pro.</em>
+                <p className="section-label mb-1.5">{getGreeting().toUpperCase()}</p>
+                <h1 className="font-display" style={{ fontSize: 'var(--text-h1)', color: 'var(--color-ink)', lineHeight: 1.1 }}>
+                    Deluxe Nail Spa
                 </h1>
-                <p style={{ marginTop: '0.75rem', color: 'var(--color-text-muted)', fontSize: '1rem', fontWeight: 500, lineHeight: 1.5 }}>
-                    AI-powered tools built for Deluxe Nail Spa.
+                <p style={{ marginTop: '0.35rem', color: 'var(--color-ink-soft)', fontSize: 'var(--text-caption)', fontWeight: 500 }}>
+                    {todayLabel()}
                 </p>
             </div>
 
-            {/* Tool cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.125rem' }}>
+            {/* Primary card — Photo Branding (the star) */}
+            <button
+                onClick={() => onNavigate(View.Branding)}
+                className="animate-stagger-2 ios-btn-press luxury-card text-left overflow-hidden relative"
+                style={{ width: '100%', minHeight: '168px', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.25rem', cursor: 'pointer' }}
+                aria-label={langPack.cat5Title}
+            >
+                <div
+                    className="absolute inset-0"
+                    style={{ background: 'linear-gradient(90deg, var(--color-accent-tint) 0%, var(--color-surface) 42%)', borderRadius: 'inherit' }}
+                />
+                <div className="relative z-10 flex-shrink-0 flex items-center justify-center overflow-hidden"
+                    style={{ width: '108px', height: '108px', borderRadius: '1rem', background: 'var(--color-surface-2)', border: '1px solid var(--color-border)' }}>
+                    {previewThumb ? (
+                        <img src={previewThumb} alt="" className="w-full h-full object-cover" loading="lazy" />
+                    ) : (
+                        <span style={{ color: 'var(--color-accent)' }}><Icon name="branding" className="w-9 h-9" /></span>
+                    )}
+                </div>
+                <div className="relative z-10 flex-1 min-w-0">
+                    <p className="section-label" style={{ marginBottom: '0.25rem' }}>Tool 01</p>
+                    <h2 className="font-display" style={{ fontSize: 'var(--text-h2)', fontWeight: 600, color: 'var(--color-ink)', lineHeight: 1.15 }}>
+                        {langPack.cat5Title}
+                    </h2>
+                    <p style={{ marginTop: '0.25rem', color: 'var(--color-ink-soft)', fontSize: 'var(--text-caption)' }}>
+                        {langPack.cat5Desc}
+                    </p>
+                </div>
+                <div className="relative z-10 flex-shrink-0" style={{
+                    width: '2.5rem', height: '2.5rem', background: 'var(--color-accent)', borderRadius: '50%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+            </button>
 
-                {/* Photo Branding card */}
+            {/* Social Post card */}
+            <button
+                onClick={() => onNavigate(View.Social)}
+                className="animate-stagger-2 ios-btn-press luxury-card text-left overflow-hidden relative"
+                style={{ width: '100%', minHeight: '112px', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.25rem', cursor: 'pointer' }}
+                aria-label={langPack.cat6Title}
+            >
+                <div className="flex-shrink-0 flex items-center justify-center"
+                    style={{ width: '3.25rem', height: '3.25rem', background: 'var(--color-accent-tint)', borderRadius: '1rem' }}>
+                    <span style={{ color: 'var(--color-accent)' }}><Icon name="social" className="w-6 h-6" /></span>
+                </div>
+                <div className="flex-1 min-w-0">
+                    <p className="section-label" style={{ marginBottom: '0.25rem' }}>Tool 02</p>
+                    <h2 className="font-display" style={{ fontSize: 'var(--text-h2)', fontWeight: 600, color: 'var(--color-ink)', lineHeight: 1.15 }}>
+                        {langPack.cat6Title}
+                    </h2>
+                    <p style={{ marginTop: '0.25rem', color: 'var(--color-ink-soft)', fontSize: 'var(--text-caption)' }}>
+                        {langPack.cat6Desc}
+                    </p>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-ink-soft)" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                    <path d="M9 5l7 7-7 7"/>
+                </svg>
+            </button>
+
+            {/* Two-up row: Inbox + Gallery */}
+            <div className="animate-stagger-3 grid grid-cols-2 gap-3">
                 <button
-                    onClick={() => onNavigate(View.Branding)}
-                    className="animate-stagger-2 ios-btn-press group luxury-card text-left overflow-hidden"
-                    style={{ width: '100%', aspectRatio: '16/9', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', cursor: 'pointer' }}
-                    aria-label={langPack.cat5Title}
+                    onClick={() => onNavigate(View.Inbox)}
+                    className="ios-btn-press luxury-card text-left relative"
+                    style={{ padding: '1.25rem', aspectRatio: '1/1', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+                    aria-label="Staff Inbox"
                 >
-                    {/* Background gradient */}
-                    <div style={{
-                        position: 'absolute', inset: 0,
-                        background: 'linear-gradient(135deg, #eefafa 0%, #d7f0f0 55%, #bfe6e7 100%)',
-                        borderRadius: 'inherit',
-                    }} />
-                    {/* Decorative orb */}
-                    <div style={{
-                        position: 'absolute', top: '-20%', right: '-10%',
-                        width: '55%', paddingBottom: '55%',
-                        background: 'radial-gradient(circle, rgba(167,222,224,0.5) 0%, transparent 70%)',
-                        filter: 'blur(24px)',
-                        pointerEvents: 'none',
-                    }} />
-                    {/* Thin rose line accent */}
-                    <div style={{
-                        position: 'absolute', left: 0, top: 0, bottom: 0, width: '4px',
-                        background: 'linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-lt) 100%)',
-                        borderTopLeftRadius: 'var(--radius-card)',
-                        borderBottomLeftRadius: 'var(--radius-card)',
-                    }} />
-
-                    {/* Icon */}
-                    <div style={{ position: 'relative', zIndex: 1 }}>
-                        <div style={{
-                            width: '3.25rem', height: '3.25rem',
-                            background: 'rgba(255,255,255,0.9)',
-                            borderRadius: '1rem',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            boxShadow: '0 2px 12px rgba(7,122,128,0.14)',
-                            border: '1px solid rgba(255,255,255,0.8)',
-                        }}>
-                            <span style={{ color: 'var(--color-primary)' }}>
-                                <Icon name="branding" className="w-6 h-6" />
-                            </span>
-                        </div>
-                    </div>
-
-                    {/* Text + arrow */}
-                    <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                        <div>
-                            <p className="section-label" style={{ marginBottom: '0.375rem' }}>Tool 01</p>
-                            <h2
-                                className="font-display"
-                                style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', fontWeight: 600, color: 'var(--color-text)', lineHeight: 1.15 }}
+                    <div className="flex items-start justify-between">
+                        <span style={{ color: 'var(--color-accent)' }}><Icon name="inbox" className="w-6 h-6" /></span>
+                        {!!inboxCount && (
+                            <span
+                                className="flex items-center justify-center"
+                                style={{ minWidth: '20px', height: '20px', padding: '0 6px', borderRadius: '9999px', background: 'var(--color-accent)', color: '#fff', fontSize: '0.65rem', fontWeight: 700 }}
                             >
-                                {langPack.cat5Title}
-                            </h2>
-                            <p style={{ marginTop: '0.375rem', color: 'var(--color-text-muted)', fontSize: '0.9rem', fontWeight: 500 }}>
-                                {langPack.cat5Desc}
-                            </p>
-                        </div>
-                        <div style={{
-                            flexShrink: 0, marginLeft: '1rem',
-                            width: '2.5rem', height: '2.5rem',
-                            background: 'var(--color-primary)',
-                            borderRadius: '50%',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            boxShadow: '0 2px 8px rgba(7,122,128,0.35)',
-                            transition: 'transform 250ms var(--ease-spring)',
-                        }}
-                        className="group-hover:scale-110"
-                        >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M5 12h14M12 5l7 7-7 7"/>
-                            </svg>
-                        </div>
+                                {inboxCount}
+                            </span>
+                        )}
                     </div>
+                    <h3 style={{ fontSize: 'var(--text-h3)', fontWeight: 600, color: 'var(--color-ink)' }}>Staff Inbox</h3>
                 </button>
 
-                {/* Social Post card */}
                 <button
-                    onClick={() => onNavigate(View.Social)}
-                    className="animate-stagger-3 ios-btn-press group luxury-card text-left overflow-hidden"
-                    style={{ width: '100%', aspectRatio: '16/9', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', cursor: 'pointer' }}
-                    aria-label={langPack.cat6Title}
+                    onClick={() => onNavigate(View.Gallery)}
+                    className="ios-btn-press luxury-card text-left relative"
+                    style={{ padding: '1.25rem', aspectRatio: '1/1', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+                    aria-label="Gallery"
                 >
-                    <div style={{
-                        position: 'absolute', inset: 0,
-                        background: 'linear-gradient(135deg, #fdf9ee 0%, #f9efd3 55%, #f1e1b0 100%)',
-                        borderRadius: 'inherit',
-                    }} />
-                    <div style={{
-                        position: 'absolute', bottom: '-20%', right: '-10%',
-                        width: '60%', paddingBottom: '60%',
-                        background: 'radial-gradient(circle, rgba(255,224,160,0.55) 0%, transparent 70%)',
-                        filter: 'blur(28px)',
-                        pointerEvents: 'none',
-                    }} />
-                    <div style={{
-                        position: 'absolute', left: 0, top: 0, bottom: 0, width: '4px',
-                        background: 'linear-gradient(180deg, var(--color-accent) 0%, #d8b766 100%)',
-                        borderTopLeftRadius: 'var(--radius-card)',
-                        borderBottomLeftRadius: 'var(--radius-card)',
-                    }} />
-
-                    <div style={{ position: 'relative', zIndex: 1 }}>
-                        <div style={{
-                            width: '3.25rem', height: '3.25rem',
-                            background: 'rgba(255,255,255,0.9)',
-                            borderRadius: '1rem',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            boxShadow: '0 2px 12px rgba(124,58,237,0.14)',
-                            border: '1px solid rgba(255,255,255,0.8)',
-                        }}>
-                            <span style={{ color: 'var(--color-accent)' }}>
-                                <Icon name="social" className="w-6 h-6" />
+                    <div className="flex items-start justify-between">
+                        <span style={{ color: 'var(--color-accent)' }}><Icon name="gallery" className="w-6 h-6" /></span>
+                        {!!galleryCount && (
+                            <span style={{ color: 'var(--color-ink-soft)', fontSize: 'var(--text-caption)', fontWeight: 600 }}>
+                                {galleryCount}
                             </span>
-                        </div>
+                        )}
                     </div>
-
-                    <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                        <div>
-                            <p className="section-label" style={{ marginBottom: '0.375rem', color: 'var(--color-accent)' }}>Tool 02</p>
-                            <h2
-                                className="font-display"
-                                style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', fontWeight: 600, color: 'var(--color-text)', lineHeight: 1.15 }}
-                            >
-                                {langPack.cat6Title}
-                            </h2>
-                            <p style={{ marginTop: '0.375rem', color: 'var(--color-text-muted)', fontSize: '0.9rem', fontWeight: 500 }}>
-                                {langPack.cat6Desc}
-                            </p>
-                        </div>
-                        <div style={{
-                            flexShrink: 0, marginLeft: '1rem',
-                            width: '2.5rem', height: '2.5rem',
-                            background: 'var(--color-accent)',
-                            borderRadius: '50%',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            boxShadow: '0 2px 8px rgba(124,58,237,0.35)',
-                            transition: 'transform 250ms var(--ease-spring)',
-                        }}
-                        className="group-hover:scale-110"
-                        >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M5 12h14M12 5l7 7-7 7"/>
-                            </svg>
-                        </div>
-                    </div>
+                    <h3 style={{ fontSize: 'var(--text-h3)', fontWeight: 600, color: 'var(--color-ink)' }}>Gallery</h3>
                 </button>
-
             </div>
 
             {/* Footer tagline */}
-            <p className="animate-stagger-3 text-center" style={{ color: 'var(--color-text-subtle)', fontSize: '0.7rem', letterSpacing: '0.08em', fontWeight: 600, textTransform: 'uppercase' }}>
+            <p className="animate-stagger-3 text-center" style={{ color: 'var(--color-ink-soft)', fontSize: 'var(--text-label)', letterSpacing: '0.08em', fontWeight: 600, textTransform: 'uppercase' }}>
                 Powered by Google Gemini AI
             </p>
 

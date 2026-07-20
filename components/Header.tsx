@@ -1,66 +1,50 @@
 
-import React, { useState, useEffect } from 'react';
-import { Language, protocolData } from '../constants';
+import React from 'react';
+import { Language } from '../constants';
+import { View } from '../types';
+import DeluxeWordmark from './DeluxeWordmark';
+import Icon from './icons';
 
 interface HeaderProps {
     currentLang: Language;
     onSetLang: (lang: Language) => void;
     onGoHome: () => void;
+    currentView: View;
 }
 
-const Header: React.FC<HeaderProps> = ({ currentLang, onSetLang, onGoHome }) => {
+const Header: React.FC<HeaderProps> = ({ currentLang, onSetLang, onGoHome, currentView }) => {
     const languages: Language[] = ['EN', 'ES', 'VI'];
-    const [scrolled, setScrolled] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 10);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    const isHome = currentView === View.MainMenu;
 
     return (
         <header
-            className="sticky top-0 z-40 transition-all duration-300"
-            style={{
-                background: scrolled ? 'rgba(253,244,249,0.88)' : 'transparent',
-                backdropFilter: scrolled ? 'blur(20px)' : 'none',
-                WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
-                borderBottom: scrolled ? '1px solid rgba(243,213,232,0.6)' : '1px solid transparent',
-            }}
+            className="glass-panel sticky top-0 z-40"
+            style={{ paddingTop: 'env(safe-area-inset-top)' }}
         >
-            <div className="max-w-2xl mx-auto px-5 h-[4.25rem] flex justify-between items-center">
-                {/* Brand mark */}
-                <button onClick={onGoHome} className="ios-btn-press flex items-center gap-3 group" aria-label="Go home">
-                    <img
-                        src={`${import.meta.env.BASE_URL}logo.png`}
-                        alt="Deluxe Nail Spa"
-                        className="flex-shrink-0 w-10 h-10 rounded-full object-cover"
-                        style={{ boxShadow: '0 2px 8px rgba(7,122,128,0.18)', background: '#fff' }}
-                    />
-                    <div className="flex flex-col items-start leading-none">
-                        <span
-                            className="font-display text-[1.05rem] font-semibold leading-none tracking-tight"
-                            style={{ color: 'var(--color-text)' }}
+            <div className="max-w-2xl mx-auto px-4 sm:px-5 flex justify-between items-center" style={{ height: '60px' }}>
+                <div className="flex items-center gap-1 min-w-0">
+                    {!isHome && (
+                        <button
+                            onClick={onGoHome}
+                            aria-label="Back to Home"
+                            className="ios-btn-press flex items-center justify-center flex-shrink-0"
+                            style={{ width: '44px', height: '44px', marginLeft: '-10px', color: 'var(--color-ink)' }}
                         >
-                            Deluxe Nail Spa
-                        </span>
-                        <span
-                            className="section-label mt-[3px]"
-                            style={{ color: 'var(--color-primary)', fontSize: '0.58rem' }}
-                        >
-                            Photo Suite
-                        </span>
-                    </div>
-                </button>
+                            <Icon name="chevronLeft" className="w-5 h-5" />
+                        </button>
+                    )}
+                    <button onClick={onGoHome} className="ios-btn-press flex items-center min-w-0" aria-label="Go home">
+                        <DeluxeWordmark variant="header" />
+                    </button>
+                </div>
 
                 {/* Language switcher */}
                 <div
-                    className="flex items-center p-1 gap-0.5"
+                    className="flex items-center p-1 gap-0.5 flex-shrink-0"
                     style={{
-                        background: 'rgba(255,255,255,0.7)',
+                        background: 'var(--color-surface-2)',
                         border: '1px solid var(--color-border)',
                         borderRadius: '9999px',
-                        backdropFilter: 'blur(8px)',
                     }}
                 >
                     {languages.map(lang => {
@@ -69,17 +53,16 @@ const Header: React.FC<HeaderProps> = ({ currentLang, onSetLang, onGoHome }) => 
                             <button
                                 key={lang}
                                 onClick={() => onSetLang(lang)}
-                                className="ios-btn-press transition-all duration-250"
+                                className="ios-btn-press"
                                 style={{
-                                    padding: '0.25rem 0.7rem',
+                                    padding: '0.3rem 0.65rem',
                                     borderRadius: '9999px',
-                                    fontSize: '0.65rem',
-                                    fontWeight: 700,
+                                    fontSize: 'var(--text-label)',
+                                    fontWeight: 600,
                                     letterSpacing: '0.05em',
-                                    background: isActive ? 'var(--color-primary)' : 'transparent',
-                                    color: isActive ? '#fff' : 'var(--color-text-muted)',
-                                    boxShadow: isActive ? '0 1px 4px rgba(7,122,128,0.3)' : 'none',
-                                    transition: 'all 220ms cubic-bezier(0.16,1,0.3,1)',
+                                    color: isActive ? 'var(--color-accent-dark)' : 'var(--color-ink-soft)',
+                                    background: 'transparent',
+                                    transition: `color var(--dur-fast) ease`,
                                 }}
                             >
                                 {lang}
